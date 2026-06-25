@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Gift For You</title>
+    <title>For You 🌹</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -18,22 +18,17 @@
             width: 100%;
             height: 100vh;
             font-family: 'Playfair Display', serif;
-            overflow: hidden;
-            /* * This applies the image directly to the body so it CANNOT be hidden.
-             * It includes a dark gradient overlay so your white text is easy to read.
-             */
-            background-color: #1a0505; /* Fallback color */
-            background-image: 
-                linear-gradient(to bottom, rgba(15, 5, 8, 0.3), rgba(15, 5, 8, 0.85)),
-                url('https://images.unsplash.com/photo-1561181286-d3fee7d55364?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background: radial-gradient(circle at center, #1f050c 0%, #080104 100%);
+            overflow-x: hidden;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* Ambient Particles */
+        /* Ambient Sparkle Particles */
         .particles {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 1;
@@ -41,105 +36,111 @@
 
         .particle {
             position: absolute;
-            background: rgba(255, 77, 109, 0.5);
+            background: rgba(255, 77, 109, 0.35);
             border-radius: 50%;
-            animation: float 7s infinite linear;
+            animation: float Upwards 9s infinite linear;
         }
 
-        @keyframes float {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+        @keyframes floatUpwards {
+            0% { transform: translateY(105vh) scale(0); opacity: 0; }
             50% { opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
-        /* UI Container */
-        .ui-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+        /* Layout Container */
+        .wrapper {
+            position: relative;
             z-index: 10;
+            width: 100%;
+            max-width: 550px;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
         }
 
-        /* The Open Button */
+        /* The Premium Envelope Button */
         #open-btn {
-            padding: 18px 45px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 20px 50px;
+            background: rgba(255, 77, 109, 0.1);
+            border: 2px solid #ff4d6d;
             color: #fff;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-family: 'Playfair Display', serif;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
             cursor: pointer;
             border-radius: 50px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             transition: all 0.4s ease;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 40px rgba(255, 77, 109, 0.25);
             text-transform: uppercase;
         }
 
         #open-btn:hover {
-            background: rgba(255, 77, 109, 0.4);
-            border-color: #ff4d6d;
-            transform: scale(1.05);
+            background: #ff4d6d;
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 15px 50px rgba(255, 77, 109, 0.5);
         }
 
-        /* The Frosted Glass Note */
-        .glass-card {
-            background: rgba(20, 5, 10, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 50px 40px;
-            max-width: 600px;
-            width: 100%;
+        /* The Elegant Presentation Card */
+        .gift-card {
+            display: none; /* Controlled safely by JavaScript */
+            background: rgba(18, 4, 8, 0.92);
+            border: 1px solid rgba(255, 77, 109, 0.2);
+            border-radius: 24px;
+            padding: 35px 30px;
             text-align: center;
             color: #fdf2f8;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-            
-            /* Hidden initially */
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+            width: 100%;
             opacity: 0;
-            transform: scale(0.95) translateY(20px);
-            pointer-events: none;
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            position: absolute;
+            transform: scale(0.93) translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .glass-card.visible {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            pointer-events: auto;
+        /* Real, Wrapped Bouquet Visual Asset */
+        .bouquet-image {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .glass-card h1 {
-            font-size: 2.5rem;
+        .gift-card h1 {
+            font-size: 2.2rem;
             margin-bottom: 20px;
             font-weight: 400;
             color: #ffb3c6;
+            letter-spacing: 1px;
         }
 
-        .glass-card p {
-            font-size: 1.3rem;
+        .gift-card p {
+            font-size: 1.2rem;
             line-height: 1.8;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+            color: #ffeef2;
+            font-weight: 300;
         }
 
-        .glass-card .signature {
+        .gift-card .signature {
             font-family: 'Great Vibes', cursive;
-            font-size: 2.8rem;
+            font-size: 3rem;
             color: #ff4d6d;
-            margin-top: 30px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            margin-top: 35px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        @media (max-width: 600px) {
-            .glass-card { padding: 40px 20px; }
-            .glass-card h1 { font-size: 2rem; }
-            .glass-card p { font-size: 1.15rem; }
+        /* Seamless Mobile Adaptation */
+        @media (max-width: 480px) {
+            .gift-card { padding: 25px 20px; }
+            .bouquet-image { max-height: 220px; margin-bottom: 20px; }
+            .gift-card h1 { font-size: 1.75rem; }
+            .gift-card p { font-size: 1.05rem; line-height: 1.6; }
+            .gift-card .signature { font-size: 2.5rem; margin-top: 25px; }
         }
     </style>
 </head>
@@ -147,50 +148,60 @@
 
     <div class="particles" id="particles"></div>
 
-    <div class="ui-container">
+    <div class="wrapper">
         
         <button id="open-btn" onclick="revealGift()">Tap to Open</button>
 
-        <div class="glass-card" id="note">
+        <div class="gift-card" id="note">
+            <img class="bouquet-image" src="https://images.unsplash.com/photo-1587314168485-3236d6710814?w=800&auto=format&fit=crop&q=80" alt="Red Roses Bouquet">
+            
             <h1>A Special Gift</h1>
             <p>Since we can't meet today, I'd like to give you this gift.</p>
             <p>Because a girl like you deserves truly a lot!</p>
             <p>This note is for you miss.</p>
+            
             <div class="signature">~ Benson Fernandes</div>
         </div>
 
     </div>
 
     <script>
-        // Create subtle floating particles
+        // Generate beautiful background glow particles
         function createParticles() {
             const container = document.getElementById('particles');
-            for (let i = 0; i < 25; i++) {
+            for (let i = 0; i < 20; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                const size = Math.random() * 5 + 2; 
+                const size = Math.random() * 4 + 2; 
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.animationDuration = (Math.random() * 6 + 4) + 's';
+                particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
                 particle.style.animationDelay = (Math.random() * 4) + 's';
                 container.appendChild(particle);
             }
         }
 
-        // Handle the button click and note reveal
+        // Clean, error-proof display switcher
         function revealGift() {
             const btn = document.getElementById('open-btn');
             const note = document.getElementById('note');
 
-            // Hide button smoothly
-            btn.style.opacity = '0';
-            btn.style.pointerEvents = 'none';
+            // 1. Remove the button from the layout structure entirely
+            btn.style.display = 'none';
 
-            // Show the glass note smoothly
+            // 2. Insert the card block into the DOM space immediately
+            note.style.display = 'block';
+
+            // 3. Smoothly animate the opacity and transition scales
             setTimeout(() => {
-                note.classList.add('visible');
-            }, 300);
+                note.style.opacity = '1';
+                note.style.transform = 'scale(1) translateY(0)';
+            }, 50);
         }
 
-        //
+        // Run ambient design on load
+        window.onload = createParticles;
+    </script>
+</body>
+</html>
