@@ -2,100 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For You 🌹</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #0f0205; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; }
-
-        #night-sky { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
-        .star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: twinkle infinite alternate; }
-        @keyframes twinkle { 0% { opacity: 0.2; } 100% { opacity: 1; } }
-
-        .gift-card {
-            position: relative; z-index: 10; background: rgba(26, 4, 9, 0.95);
-            border: 1px solid #d90429; border-radius: 20px; padding: 20px;
-            width: 90%; max-width: 400px; text-align: center;
-            transition: transform 0.5s ease;
-        }
-        .gift-card.folded { transform: scale(0.85) translateY(-30px); }
-
-        .bouquet-img { width: 100%; border-radius: 12px; margin-bottom: 15px; display: block; }
-        
-        .section { display: none; flex-direction: column; align-items: center; }
-        h1 { color: #ef233c; font-size: 1.5rem; margin-bottom: 10px; }
-        p { font-size: 0.95rem; line-height: 1.5; margin-bottom: 10px; }
-        
-        .btn-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-top: 10px; }
-        button { background: #d90429; color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; }
-        
-        #sky-note { display: none; color: #fff; font-style: italic; font-size: 0.85rem; margin-top: 10px; border-top: 1px solid #d90429; padding-top: 10px; }
-        .timeline-step { text-align: left; background: rgba(255,255,255,0.05); padding: 8px; margin: 5px 0; border-radius: 8px; width: 100%; font-size: 0.85rem; }
+        body { margin: 0; background: #0f0205; color: #fff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+        #night-sky { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; }
+        .gift-card { position: relative; z-index: 10; background: #1a0409; border: 1px solid #d90429; border-radius: 20px; padding: 20px; width: 85vw; max-width: 400px; text-align: center; transition: all 0.5s; }
+        .gift-card.folded { transform: scale(0.8) translateY(-20px); opacity: 0.8; }
+        .bouquet-img { width: 100%; height: auto; border-radius: 12px; display: block; margin-bottom: 15px; }
+        button { background: #d90429; color: white; border: none; padding: 12px 20px; border-radius: 20px; cursor: pointer; margin: 5px; }
+        .section { display: none; }
+        #sky-note { display: none; font-style: italic; font-size: 0.9rem; margin-top: 15px; border-top: 1px solid #d90429; padding-top: 10px; }
     </style>
 </head>
 <body>
-
     <div id="night-sky"></div>
-
     <div class="gift-card" id="card">
         <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&q=80&w=400" class="bouquet-img">
-        
-        <div id="content-area">
-            <div class="section" id="intro" style="display:flex;">
-                <h1>A Special Gift</h1>
-                <button onclick="showNote()">Tap to Open</button>
-            </div>
-
-            <div class="section" id="note">
-                <h1>A Note For You</h1>
-                <p>Since we can't meet today, I'd like to give you this gift.<br>Because a girl like you deserves a lot!</p>
-                <div class="btn-group">
-                    <button onclick="toggleSky()">✨ Sky</button>
-                    <button onclick="showTimeline()">⏳ Future</button>
-                </div>
-            </div>
-
-            <div class="section" id="timeline">
-                <h1>Our Story</h1>
-                <div class="timeline-step">1. First hellos.</div>
-                <div class="timeline-step">2. Digital bouquet.</div>
-                <div class="timeline-step">3. Coffee in person. 😉</div>
-                <button onclick="showNote()">Back</button>
-            </div>
+        <div id="intro" class="section" style="display:block;">
+            <button onclick="openNote()">Tap to Open</button>
         </div>
-
-        <div id="sky-note">Since we couldn't go stargazing yet, I brought the sky to you. ✨<br><button onclick="toggleSky()" style="margin-top:10px;">Close Sky</button></div>
+        <div id="content" class="section">
+            <p>Since we can't meet, I wanted to share this with you.</p>
+            <button onclick="toggleSky()">✨ Sky</button>
+        </div>
+        <div id="sky-note">Since we couldn't go stargazing yet, I brought the sky to you. ✨<br><br><button onclick="reset()">Back</button></div>
     </div>
-
     <script>
-        function showNote() {
-            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-            document.getElementById('note').style.display = 'flex';
-            document.getElementById('card').classList.remove('folded');
-            document.getElementById('sky-note').style.display = 'none';
-            document.getElementById('night-sky').innerHTML = '';
+        function openNote() { 
+            document.getElementById('intro').style.display='none'; 
+            document.getElementById('content').style.display='block'; 
         }
-
-        function showTimeline() {
-            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-            document.getElementById('timeline').style.display = 'flex';
+        function toggleSky() { 
+            document.getElementById('card').classList.add('folded'); 
+            document.getElementById('content').style.display='none'; 
+            document.getElementById('sky-note').style.display='block'; 
         }
-
-        function toggleSky() {
-            const sky = document.getElementById('night-sky'), card = document.getElementById('card'), note = document.getElementById('sky-note');
-            if (sky.innerHTML === '') {
-                card.classList.add('folded');
-                note.style.display = 'block';
-                for (let i = 0; i < 80; i++) {
-                    let s = document.createElement('div'); s.className = 'star';
-                    s.style.width = s.style.height = Math.random()*2 + 'px';
-                    s.style.left = Math.random()*100 + 'vw'; s.style.top = Math.random()*100 + 'vh';
-                    s.style.animationDuration = (Math.random()*3+2) + 's';
-                    sky.appendChild(s);
-                }
-            } else {
-                showNote();
-            }
+        function reset() { 
+            document.getElementById('card').classList.remove('folded'); 
+            document.getElementById('content').style.display='block'; 
+            document.getElementById('sky-note').style.display='none'; 
         }
     </script>
 </body>
