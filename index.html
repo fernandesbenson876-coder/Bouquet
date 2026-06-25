@@ -5,14 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Special Gift For You</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600&family=Great+Vibes&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --primary: #ff4d6d;
-            --text-light: #fdf2f8;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -24,55 +19,40 @@
             height: 100vh;
             font-family: 'Playfair Display', serif;
             overflow: hidden;
-            background-color: #000;
-        }
-
-        /* * 1. The Real Bouquet Background 
-         * This uses a high-resolution Unsplash photo of real red roses.
-         * The linear-gradient adds a dark, cinematic vignette so the text is readable.
-         */
-        .cinematic-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(15, 5, 8, 0.4), rgba(15, 5, 8, 0.9)), 
-                        url('https://images.unsplash.com/photo-1548094990-c16ca90f1f0c?q=80&w=2070&auto=format&fit=crop');
+            /* * This applies the image directly to the body so it CANNOT be hidden.
+             * It includes a dark gradient overlay so your white text is easy to read.
+             */
+            background-color: #1a0505; /* Fallback color */
+            background-image: 
+                linear-gradient(to bottom, rgba(15, 5, 8, 0.3), rgba(15, 5, 8, 0.85)),
+                url('https://images.unsplash.com/photo-1561181286-d3fee7d55364?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
             background-size: cover;
             background-position: center;
-            z-index: 1;
-            animation: slowZoom 20s infinite alternate;
+            background-repeat: no-repeat;
         }
 
-        @keyframes slowZoom {
-            from { transform: scale(1); }
-            to { transform: scale(1.05); }
-        }
-
-        /* 2. Floating Ambient Particles */
+        /* Ambient Particles */
         .particles {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 2;
             pointer-events: none;
+            z-index: 1;
         }
 
         .particle {
             position: absolute;
-            background: rgba(255, 77, 109, 0.4);
+            background: rgba(255, 77, 109, 0.5);
             border-radius: 50%;
-            animation: float 8s infinite linear;
+            animation: float 7s infinite linear;
         }
 
         @keyframes float {
-            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: translateY(-10vh) translateX(20px) rotate(360deg); opacity: 0; }
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
         }
 
-        /* 3. The Interactive UI Container */
+        /* UI Container */
         .ui-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -80,61 +60,58 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             padding: 20px;
         }
 
         /* The Open Button */
         #open-btn {
             padding: 18px 45px;
-            background: rgba(255, 77, 109, 0.15);
-            border: 1px solid var(--primary);
-            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
             font-size: 1.2rem;
             font-family: 'Playfair Display', serif;
             letter-spacing: 2px;
             cursor: pointer;
             border-radius: 50px;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             transition: all 0.4s ease;
-            box-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             text-transform: uppercase;
         }
 
         #open-btn:hover {
             background: rgba(255, 77, 109, 0.4);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 77, 109, 0.6);
+            border-color: #ff4d6d;
+            transform: scale(1.05);
         }
 
-        /* * 4. The Glassmorphism Note 
-         * This creates the high-end frosted glass effect.
-         */
+        /* The Frosted Glass Note */
         .glass-card {
-            background: rgba(20, 5, 10, 0.5);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(20, 5, 10, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             padding: 50px 40px;
             max-width: 600px;
             width: 100%;
             text-align: center;
-            color: var(--text-light);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            color: #fdf2f8;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
             
-            /* Hidden by default */
+            /* Hidden initially */
             opacity: 0;
-            transform: translateY(40px);
+            transform: scale(0.95) translateY(20px);
             pointer-events: none;
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-            display: none;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: absolute;
         }
 
         .glass-card.visible {
-            display: block;
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1) translateY(0);
             pointer-events: auto;
         }
 
@@ -142,7 +119,6 @@
             font-size: 2.5rem;
             margin-bottom: 20px;
             font-weight: 400;
-            letter-spacing: 1px;
             color: #ffb3c6;
         }
 
@@ -154,22 +130,20 @@
 
         .glass-card .signature {
             font-family: 'Great Vibes', cursive;
-            font-size: 2.5rem;
-            color: var(--primary);
+            font-size: 2.8rem;
+            color: #ff4d6d;
             margin-top: 30px;
-            text-shadow: 0 0 10px rgba(255, 77, 109, 0.3);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         @media (max-width: 600px) {
             .glass-card { padding: 40px 20px; }
             .glass-card h1 { font-size: 2rem; }
-            .glass-card p { font-size: 1.1rem; }
+            .glass-card p { font-size: 1.15rem; }
         }
     </style>
 </head>
 <body>
-
-    <div class="cinematic-bg"></div>
 
     <div class="particles" id="particles"></div>
 
@@ -188,48 +162,35 @@
     </div>
 
     <script>
-        // Generate ambient floating particles for a magical atmosphere
+        // Create subtle floating particles
         function createParticles() {
             const container = document.getElementById('particles');
-            const particleCount = 30;
-
-            for (let i = 0; i < particleCount; i++) {
+            for (let i = 0; i < 25; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                
-                // Randomize size, position, and animation timing
-                const size = Math.random() * 6 + 2; // 2px to 8px
+                const size = Math.random() * 5 + 2; 
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
-                particle.style.animationDelay = (Math.random() * 5) + 's';
-                
+                particle.style.animationDuration = (Math.random() * 6 + 4) + 's';
+                particle.style.animationDelay = (Math.random() * 4) + 's';
                 container.appendChild(particle);
             }
         }
 
-        // Handle the reveal animation
+        // Handle the button click and note reveal
         function revealGift() {
             const btn = document.getElementById('open-btn');
             const note = document.getElementById('note');
 
-            // Fade out the button
+            // Hide button smoothly
             btn.style.opacity = '0';
             btn.style.pointerEvents = 'none';
-            btn.style.position = 'absolute';
 
-            // Show the frosted glass note
+            // Show the glass note smoothly
             setTimeout(() => {
-                note.style.display = 'block';
-                // Trigger reflow to ensure transition plays
-                void note.offsetWidth; 
                 note.classList.add('visible');
             }, 300);
         }
 
-        // Initialize
-        window.onload = createParticles;
-    </script>
-</body>
-</html>
+        //
