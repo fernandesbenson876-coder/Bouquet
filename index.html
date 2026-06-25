@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You 🌹</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; }
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: #0f0205; 
+            color: #ffffff;
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        #night-sky { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        .star { position: absolute; background-color: white; border-radius: 50%; opacity: 0; animation: twinkle infinite alternate; }
+        @keyframes twinkle { 0% { opacity: 0.2; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px white; } }
+
+        .gift-card {
+            position: relative;
+            z-index: 10;
+            background: rgba(26, 4, 9, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(217, 4, 41, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 400px;
+            width: 92%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .image-wrapper { position: relative; width: 100%; }
+        .bouquet-img { width: 100%; height: auto; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+
+        #secret-sparkle { position: absolute; top: 10px; right: 10px; font-size: 1.5rem; cursor: pointer; display: none; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } }
+
+        .btn { background: #d90429; color: white; border: none; padding: 15px 30px; font-size: 1rem; border-radius: 40px; cursor: pointer; margin-top: 10px; }
+        .small-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid #555; color: #fff; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem; margin: 3px; cursor: pointer; }
+
+        .section { display: none; flex-direction: column; justify-content: center; align-items: center; min-height: 250px; }
+        h1 { color: #ef233c; font-size: 1.8rem; margin-bottom: 10px; }
+        p { font-size: 1rem; line-height: 1.5; color: #edf2f4; margin: 10px 0; }
+
+        .signature { font-family: 'Dancing Script', cursive; font-size: 2rem; color: #d90429; margin-top: 15px; opacity: 0; transition: opacity 1s; }
+        .cursor::after { content: '|'; animation: blink 1s infinite; color: #ef233c; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .timeline-step { display: flex; align-items: center; text-align: left; margin: 8px 0; padding: 8px; background: rgba(255,255,255,0.05); border-radius: 8px; border-left: 3px solid #d90429; font-size: 0.9rem; }
+        #sky-note { display: none; color: #edf2f4; font-style: italic; font-size: 0.9rem; margin: 10px 0; opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+    <div id="night-sky"></div>
+
+    <div class="gift-card">
+        <div class="image-wrapper">
+            <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&q=80&w=800" alt="Bouquet" class="bouquet-img">
+            <div id="secret-sparkle" onclick="showPoem()">✨</div>
+        </div>
+        
+        <div class="section" id="intro-section" style="display:flex;">
+            <h1>A Special Gift</h1>
+            <button class="btn" onclick="startExperience()">Tap to Open</button>
+        </div>
+
+        <div class="section" id="note-content">
+            <p id="line1"></p>
+            <p id="line2"></p>
+            <p id="line3"></p>
+            <div class="signature" id="sig">~ Benson Fernandes</div>
+        </div>
+
+        <div class="section" id="poem-content">
+            <h1>A Secret For You</h1>
+            <p>We met through a screen, just talking in text,<br>I couldn't predict what was coming up next.<br>But I made you this gift so you'd smile and see,<br>That you're already someone quite special to me.</p>
+        </div>
+
+        <div class="section" id="timeline-content">
+            <h1>Our Story</h1>
+            <div class="timeline-step"><div style="margin-right:10px; color:#ef233c;">1</div> We say our first hellos.</div>
+            <div class="timeline-step"><div style="margin-right:10px; color:#ef233c;">2</div> I build you this bouquet.</div>
+            <div class="timeline-step"><div style="margin-right:10px; color:#ef233c;">3</div> We grab that coffee. 😉</div>
+        </div>
+
+        <div id="sky-note">Since we couldn't go stargazing yet, I brought the sky to you. ✨</div>
+
+        <div id="action-menu" style="display:none; margin-top:15px;">
+            <button class="small-btn" onclick="toggleSky()">✨ Sky</button>
+            <button class="small-btn" onclick="showTimeline()">⏳ Future</button>
+            <button class="small-btn" onclick="showNote()">📜 Note</button>
+        </div>
+    </div>
+
+    <script>
+        const textLines = ["Since we can't meet today, I'd like to give you this gift.", "Because a girl like you deserves truly a lot!", "This note is for you miss."];
+        let currentLine = 0, currentChar = 0;
+
+        function startExperience() {
+            document.getElementById('intro-section').style.display = 'none';
+            document.getElementById('note-content').style.display = 'flex';
+            typeWriter();
+        }
+
+        function typeWriter() {
+            if (currentLine < textLines.length) {
+                const el = document.getElementById('line' + (currentLine + 1));
+                el.classList.add('cursor');
+                if (currentChar < textLines[currentLine].length) {
+                    el.innerHTML += textLines[currentLine].charAt(currentChar++);
+                    setTimeout(typeWriter, 40);
+                } else {
+                    el.classList.remove('cursor');
+                    currentLine++; currentChar = 0;
+                    setTimeout(typeWriter, 300);
+                }
+            } else {
+                document.getElementById('sig').style.opacity = '1';
+                document.getElementById('action-menu').style.display = 'block';
+                document.getElementById('secret-sparkle').style.display = 'block';
+            }
+        }
+
+        function hideAll() { document.getElementById('note-content').style.display = 'none'; document.getElementById('poem-content').style.display = 'none'; document.getElementById('timeline-content').style.display = 'none'; }
+        function showNote() { hideAll(); document.getElementById('note-content').style.display = 'flex'; }
+        function showPoem() { hideAll(); document.getElementById('poem-content').style.display = 'flex'; }
+        function showTimeline() { hideAll(); document.getElementById('timeline-content').style.display = 'flex'; }
+
+        function toggleSky() {
+            const sky = document.getElementById('night-sky'), note = document.getElementById('sky-note');
+            if (sky.innerHTML === '') {
+                for (let i = 0; i < 100; i++) {
+                    let s = document.createElement('div'); s.className = 'star';
+                    s.style.width = s.style.height = Math.random()*2 + 'px';
+                    s.style.left = Math.random()*100 + 'vw'; s.style.top = Math.random()*100 + 'vh';
+                    s.style.animationDuration = (Math.random()*3+2) + 's';
+                    sky.appendChild(s);
+                }
+                note.style.display = 'block';
+            } else { sky.innerHTML = ''; note.style.display = 'none'; }
+        }
+    </script>
+</body>
+  </html>
