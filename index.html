@@ -5,182 +5,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For You 🌹</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            margin: 0;
-            padding: 20px;
-            background-color: #0f0205; 
+            background-color: #0a0103; 
             color: #ffffff;
             font-family: 'Playfair Display', serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* The Presentation Card */
+        .gift-card {
+            background: linear-gradient(145deg, #1a0409, #0d0204);
+            border: 1px solid rgba(217, 4, 41, 0.2);
+            border-radius: 24px;
+            padding: 35px 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(217, 4, 41, 0.1);
             text-align: center;
         }
 
-        .gift-card {
-            background: #1a0409;
-            border: 1px solid #3a0a14;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 450px;
-            width: 100%;
-            box-shadow: 0 20px 50px rgba(200, 0, 40, 0.15);
-            /* Set a minimum height so the card doesn't jump around while typing */
-            min-height: 550px; 
-            display: flex;
-            flex-direction: column;
-        }
-
+        /* The Real Bouquet Image */
         .bouquet-img {
             width: 100%;
-            border-radius: 12px;
+            border-radius: 16px;
             margin-bottom: 25px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
             object-fit: cover; 
-            max-height: 300px;
+            /* This ensures it looks like a full arrangement */
+            max-height: 380px; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        #intro-section {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .btn {
-            background: #d90429;
-            color: white;
-            border: none;
-            padding: 16px 40px;
-            font-size: 1.2rem;
-            font-family: 'Playfair Display', serif;
-            letter-spacing: 1px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(217, 4, 41, 0.4);
-            margin-top: 10px;
-        }
-
-        .btn:hover {
-            background: #ef233c;
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(217, 4, 41, 0.6);
-        }
-
-        .gift-card h1 {
+        /* Typography */
+        h1 {
             color: #ef233c;
-            font-size: 2.2rem;
-            margin-bottom: 15px;
+            font-size: 2.4rem;
+            margin-bottom: 10px;
             font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        /* Note Content Styling */
-        #note-content {
-            display: none; 
-            text-align: center;
-            flex-grow: 1;
-            display: none; /* Handled by JS */
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        #note-content p {
-            font-size: 1.2rem;
-            line-height: 1.7;
+        .verse {
+            font-size: 1.15rem;
+            line-height: 1.8;
             color: #edf2f4;
-            margin-bottom: 15px;
-            min-height: 1.7rem; /* Keeps spacing even before text appears */
+            margin: 25px 0;
+            font-style: italic;
+            opacity: 0.9;
         }
 
         .signature {
             font-family: 'Dancing Script', cursive;
             font-size: 2.8rem;
             color: #d90429;
-            margin-top: 25px;
-            opacity: 0; /* Hidden until the very end */
-            transition: opacity 1s ease;
+            margin-top: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
+
+        /* Interactive Button */
+        .btn {
+            background: #d90429;
+            color: white;
+            border: none;
+            padding: 16px 45px;
+            font-size: 1.1rem;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(217, 4, 41, 0.3);
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background: #ef233c;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(217, 4, 41, 0.5);
+        }
+
+        /* Layout switching */
+        #note-content { display: none; animation: fadeIn 1s ease forwards; }
         
-        /* Cursor blink effect for the typewriter */
-        .cursor::after {
-            content: '|';
-            animation: blink 1s infinite;
-            color: #ef233c;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
     <div class="gift-card">
-        <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&q=80&w=800" alt="A Beautiful Wrapped Bouquet of Red Roses" class="bouquet-img">
+        <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&q=80&w=800" alt="Wrapped Bouquet of Red Roses" class="bouquet-img">
         
         <div id="intro-section">
-            <h1>A Special Gift</h1>
-            <button class="btn" onclick="startTypewriter()">Tap to Open Note</button>
+            <h1>For You</h1>
+            <button class="btn" onclick="openNote()">Tap to Open</button>
         </div>
 
         <div id="note-content">
-            <p id="line1"></p>
-            <p id="line2"></p>
-            <p id="line3"></p>
-            <div class="signature" id="sig">~ Benson Fernandes</div>
+            <div class="verse">
+                A moment in time, a spark in the dark,<br>
+                A few simple words that have left a deep mark.<br>
+                I can't hand you these, though I wish that I could,<br>
+                But I hope that this gesture is still understood.
+            </div>
+            <div class="signature">~ Benson Fernandes</div>
         </div>
     </div>
 
     <script>
-        // The exact lines you want to type out
-        const textLines = [
-            "Since we can't meet today, I'd like to give you this gift.",
-            "Because a girl like you deserves truly a lot!",
-            "This note is for you miss."
-        ];
-
-        let currentLine = 0;
-        let currentChar = 0;
-        const typingSpeed = 50; // Milliseconds per character
-
-        function startTypewriter() {
-            // Hide intro, show the note container (but text is empty)
+        function openNote() {
             document.getElementById('intro-section').style.display = 'none';
-            const noteContainer = document.getElementById('note-content');
-            noteContainer.style.display = 'flex';
-            
-            // Start typing the first line
-            typeWriter();
-        }
-
-        function typeWriter() {
-            if (currentLine < textLines.length) {
-                const element = document.getElementById('line' + (currentLine + 1));
-                
-                // Add the cursor class to the current line
-                element.classList.add('cursor');
-
-                if (currentChar < textLines[currentLine].length) {
-                    element.innerHTML += textLines[currentLine].charAt(currentChar);
-                    currentChar++;
-                    setTimeout(typeWriter, typingSpeed);
-                } else {
-                    // Finished this line, remove cursor and move to the next
-                    element.classList.remove('cursor');
-                    currentLine++;
-                    currentChar = 0;
-                    setTimeout(typeWriter, 500); // Pause before next line
-                }
-            } else {
-                // All lines are done, reveal the signature smoothly
-                document.getElementById('sig').style.opacity = '1';
-            }
+            document.getElementById('note-content').style.display = 'block';
         }
     </script>
 </body>
