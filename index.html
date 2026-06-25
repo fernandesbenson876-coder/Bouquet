@@ -3,515 +3,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You 🌹</title>
+    <title>Romantic Rose Bouquet 🌹</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             width: 100%;
             height: 100vh;
-            background: linear-gradient(135deg, #1a0000 0%, #330000 50%, #1a0000 100%);
+            background: linear-gradient(135deg, #1a0008 0%, #2a0014 50%, #1a0008 100%);
             overflow: hidden;
+            font-family: 'Arial', sans-serif;
         }
         #canvas { display: block; width: 100%; height: 100%; }
+        
         .header {
             position: absolute;
-            top: 50px;
+            top: 40px;
             left: 50%;
             transform: translateX(-50%);
             color: #ff9999;
-            font-size: 40px;
+            font-size: 48px;
             font-weight: 300;
-            letter-spacing: 4px;
-            text-shadow: 0 4px 30px rgba(0,0,0,0.9);
+            letter-spacing: 6px;
+            text-shadow: 0 4px 40px rgba(255, 50, 50, 0.8);
             z-index: 100;
+            pointer-events: none;
         }
+        
         .btn {
             position: absolute;
             bottom: 60px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 15px 50px;
-            background: rgba(220, 20, 60, 0.2);
-            border: 2px solid #ff4444;
-            color: #ff9999;
-            font-size: 18px;
+            padding: 16px 60px;
+            background: rgba(220, 20, 60, 0.15);
+            border: 2px solid #ff6666;
+            color: #ffcccc;
+            font-size: 19px;
             cursor: pointer;
             border-radius: 50px;
-            backdrop-filter: blur(10px);
-            transition: all 0.4s;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 600;
             z-index: 100;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 15px rgba(0,0,0,0.7);
         }
         .btn:hover {
-            background: rgba(220, 20, 60, 0.4);
-            box-shadow: 0 0 30px rgba(220, 20, 60, 0.8);
-            transform: translateX(-50%) scale(1.1);
+            background: rgba(220, 20, 60, 0.35);
+            box-shadow: 0 0 40px rgba(255, 80, 80, 0.9);
+            transform: translateX(-50%) scale(1.08);
         }
+        
         .modal {
             display: none;
             position: fixed;
             z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(12px);
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(15px);
             justify-content: center;
             align-items: center;
         }
         .modal.show { display: flex !important; }
+        
         .msg-box {
-            background: linear-gradient(135deg, rgba(50, 0, 0, 0.98) 0%, rgba(20, 0, 0, 0.98) 100%);
-            padding: 80px 70px;
-            border: 2px solid #dc143c;
-            border-radius: 35px;
-            width: 90%;
-            max-width: 800px;
+            background: linear-gradient(135deg, #3a0014, #1a0008);
+            padding: 70px 80px;
+            border: 3px solid #ff5555;
+            border-radius: 40px;
+            max-width: 820px;
             text-align: center;
-            box-shadow: 0 30px 120px rgba(220, 20, 60, 0.6);
-            backdrop-filter: blur(30px);
+            box-shadow: 0 40px 140px rgba(255, 60, 60, 0.7);
         }
         .msg-box h2 {
-            color: #ff9999;
-            margin-bottom: 60px;
-            font-size: 42px;
-            font-weight: 300;
-            letter-spacing: 3px;
+            color: #ffaaaa;
+            font-size: 46px;
+            margin-bottom: 50px;
+            letter-spacing: 4px;
         }
         .msg-box p {
-            color: #ffffff;
+            color: #ffe0e0;
             font-size: 24px;
-            line-height: 2.2;
-            margin-bottom: 40px;
-            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 35px;
         }
         .msg-box .sig {
-            color: #ff6666;
-            font-size: 22px;
-            margin-top: 70px;
-            font-style: italic;
-            font-weight: 500;
-            letter-spacing: 2px;
-        }
-        .close-btn {
-            background: rgba(220, 20, 60, 0.2);
-            border: 2px solid #ff4444;
-            color: #ff9999;
-            padding: 14px 45px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 50px;
+            color: #ff7777;
+            font-size: 24px;
             margin-top: 60px;
-            transition: all 0.4s;
-            font-weight: 600;
+            font-style: italic;
+        }
+        
+        .close-btn {
+            margin-top: 50px;
+            padding: 14px 50px;
+            background: rgba(220, 20, 60, 0.2);
+            border: 2px solid #ff6666;
+            color: #ffcccc;
+            font-size: 17px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         .close-btn:hover {
-            background: rgba(220, 20, 60, 0.4);
-            box-shadow: 0 0 25px rgba(220, 20, 60, 0.7);
-            transform: scale(1.1);
+            background: #ff3333;
+            color: white;
+            transform: scale(1.05);
         }
+        
         .hint {
             position: absolute;
-            bottom: 15px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255, 100, 100, 0.5);
-            font-size: 13px;
+            color: rgba(255, 180, 180, 0.6);
+            font-size: 14px;
             z-index: 100;
-            animation: pulse 2.5s infinite;
+            animation: pulse 3s infinite;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.9; }
-        }
+        @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.9; } }
     </style>
 </head>
 <body>
-    <div class="header">✦ For You ✦</div>
-    <button class="btn" id="msgBtn">💌 Read Message</button>
+    <div class="header">✦ Eternal Roses ✦</div>
+    <button class="btn" id="msgBtn">💌 Open Love Note</button>
 
     <div id="modal" class="modal">
         <div class="msg-box">
-            <h2>A Special Gift</h2>
-            <p>Since we can't meet today, I'd like to give you this gift.</p>
-            <p>Because a girl like you deserves truly a lot!</p>
-            <div class="sig">~ Benson Fernandes</div>
+            <h2>My Dearest</h2>
+            <p>These roses are just a small token of how much you mean to me.</p>
+            <p>May their beauty remind you of my love every single day.</p>
+            <div class="sig">— With all my heart</div>
             <button class="close-btn" id="closeBtn">Close</button>
         </div>
     </div>
 
-    <div class="hint">Move around • Click message</div>
+    <div class="hint">Move mouse to gently rotate • Click for message</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <script>
+        // Scene Setup
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(52, window.innerWidth / window.innerHeight, 0.1, 100);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-
+        
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.6;
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFShadowShadowMap;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         document.body.appendChild(renderer.domElement);
 
-        camera.position.set(0, 2.2, 7.5);
-        camera.lookAt(0, 1.8, 0);
+        camera.position.set(0, 3, 8);
+        camera.lookAt(0, 1.5, 0);
 
-        // LIGHTS - warmer for red roses
-        const ambient = new THREE.AmbientLight(0xffffff, 0.65);
+        // Lights - Warm romantic atmosphere
+        const ambient = new THREE.AmbientLight(0xffeecc, 0.7);
         scene.add(ambient);
 
-        const key = new THREE.PointLight(0xff5555, 3.2, 250);
-        key.position.set(6, 7, 9);
-        key.castShadow = true;
-        key.shadow.mapSize.width = 2048;
-        key.shadow.mapSize.height = 2048;
-        key.shadow.bias = -0.0005;
-        scene.add(key);
+        const keyLight = new THREE.PointLight(0xff5555, 4.5, 100);
+        keyLight.position.set(5, 8, 10);
+        keyLight.castShadow = true;
+        keyLight.shadow.mapSize.width = 2048;
+        keyLight.shadow.mapSize.height = 2048;
+        scene.add(keyLight);
 
-        const fill = new THREE.PointLight(0xffaa88, 1.4, 180);
-        fill.position.set(-7, 4, 5);
-        scene.add(fill);
+        const fillLight = new THREE.PointLight(0xffbbaa, 2.2, 80);
+        fillLight.position.set(-6, 5, 6);
+        scene.add(fillLight);
 
-        const rim = new THREE.PointLight(0xdc143c, 1.3, 150);
-        rim.position.set(0, 6, -10);
-        scene.add(rim);
+        const rimLight = new THREE.PointLight(0xff3366, 2.8, 60);
+        rimLight.position.set(0, 7, -8);
+        scene.add(rimLight);
 
-        // REALISTIC ROSE WITH LATHE GEOMETRY
-        function createRealisticRose(color, glowColor) {
+        // Enhanced Rose Creator
+        function createAttractiveRose(baseColor, glowColor) {
             const rose = new THREE.Group();
-
-            // Function to create a single petal using a custom shape
-            function createPetal(petalColor) {
-                const curve = new THREE.CatmullRomCurve3([
-                    new THREE.Vector3(0, 0, 0),
-                    new THREE.Vector3(0.08, 0.15, 0.02),
-                    new THREE.Vector3(0.12, 0.4, 0.05),
-                    new THREE.Vector3(0.1, 0.65, 0.08),
-                    new THREE.Vector3(0.05, 0.85, 0.06),
-                    new THREE.Vector3(0, 1, 0.02)
-                ]);
-
-                const points = curve.getPoints(20);
+            
+            function createPetal(color, scale = 1, curveBend = 1) {
+                const points = [];
+                for (let i = 0; i <= 18; i++) {
+                    const t = i / 18;
+                    const x = Math.sin(t * Math.PI) * 0.85 * (1 - t * 0.3);
+                    const y = t * 1.1;
+                    const z = Math.sin(t * Math.PI * 2) * 0.08 * curveBend;
+                    points.push(new THREE.Vector3(x, y, z));
+                }
+                
+                const curve = new THREE.CatmullRomCurve3(points);
+                const shapePoints = curve.getPoints(24);
+                
                 const shape = new THREE.Shape();
-                shape.moveTo(points[0].x, points[0].y);
-                points.forEach(p => shape.lineTo(p.x, p.y));
-                points.reverse();
-                points.forEach(p => shape.lineTo(-p.x, p.y));
+                shape.moveTo(shapePoints[0].x, shapePoints[0].y);
+                shapePoints.forEach(p => shape.lineTo(p.x, p.y));
+                for (let i = shapePoints.length - 1; i >= 0; i--) {
+                    shape.lineTo(-shapePoints[i].x, shapePoints[i].y);
+                }
+                shape.closePath();
 
-                const geom = new THREE.ShapeGeometry(shape);
-                const mat = new THREE.MeshStandardMaterial({
-                    color: petalColor,
-                    roughness: 0.28,
-                    metalness: 0.05,
+                const geometry = new THREE.ShapeGeometry(shape);
+                const material = new THREE.MeshPhongMaterial({
+                    color: color,
+                    shininess: 8,
+                    specular: 0xffffff,
                     emissive: glowColor,
-                    emissiveIntensity: 0.35,
+                    emissiveIntensity: 0.45,
                     side: THREE.DoubleSide,
                     flatShading: false
                 });
 
-                return new THREE.Mesh(geom, mat);
+                const petalMesh = new THREE.Mesh(geometry, material);
+                petalMesh.castShadow = true;
+                petalMesh.receiveShadow = true;
+                return petalMesh;
             }
 
-            // OUTER LAYER - 32 petals spiraling
-            for (let i = 0; i < 32; i++) {
-                const angle = (i / 32) * Math.PI * 2 + Math.random() * 0.3;
-                const petal = createPetal(color);
-                
-                const radius = 0.65;
-                const heightOffset = 0.4;
-                petal.position.set(
-                    Math.cos(angle) * radius,
-                    heightOffset + Math.random() * 0.15,
-                    Math.sin(angle) * radius
-                );
-                
-                petal.rotation.y = angle;
-                petal.rotation.z = -0.4 + Math.random() * 0.3;
-                petal.rotation.x = 0.2 + Math.random() * 0.2;
-                petal.scale.set(1.1, 1, 1);
-                
-                petal.castShadow = true;
-                petal.receiveShadow = true;
-                rose.add(petal);
-            }
+            // Multiple realistic layers
+            const layers = [
+                { count: 36, radius: 0.72, height: 0.42, rotZ: -0.35, scale: 1.12, color: baseColor },
+                { count: 28, radius: 0.52, height: 0.28, rotZ: -0.5, scale: 0.98, color: baseColor },
+                { count: 20, radius: 0.32, height: 0.16, rotZ: -0.65, scale: 0.82, color: baseColor },
+                { count: 12, radius: 0.18, height: 0.08, rotZ: -0.8, scale: 0.65, color: 0xff3344 }
+            ];
 
-            // MIDDLE LAYER - 24 petals
-            for (let i = 0; i < 24; i++) {
-                const angle = (i / 24) * Math.PI * 2 + 0.15 + Math.random() * 0.25;
-                const petal = createPetal(color);
-                
-                const radius = 0.45;
-                const heightOffset = 0.25;
-                petal.position.set(
-                    Math.cos(angle) * radius,
-                    heightOffset + Math.random() * 0.12,
-                    Math.sin(angle) * radius
-                );
-                
-                petal.rotation.y = angle;
-                petal.rotation.z = -0.5 + Math.random() * 0.35;
-                petal.rotation.x = 0.3 + Math.random() * 0.25;
-                petal.scale.set(0.95, 0.95, 1);
-                
-                petal.castShadow = true;
-                petal.receiveShadow = true;
-                rose.add(petal);
-            }
+            layers.forEach(layer => {
+                for (let i = 0; i < layer.count; i++) {
+                    const petal = createPetal(layer.color, layer.scale, 1.1);
+                    const angle = (i / layer.count) * Math.PI * 2 + (Math.random() - 0.5) * 0.25;
+                    
+                    petal.position.set(
+                        Math.cos(angle) * layer.radius,
+                        layer.height + Math.random() * 0.12,
+                        Math.sin(angle) * layer.radius * 0.9
+                    );
+                    
+                    petal.rotation.set(
+                        0.15 + Math.random() * 0.25,
+                        angle,
+                        layer.rotZ + (Math.random() - 0.5) * 0.4
+                    );
+                    
+                    rose.add(petal);
+                }
+            });
 
-            // INNER LAYER - 16 petals (tight center)
-            for (let i = 0; i < 16; i++) {
-                const angle = (i / 16) * Math.PI * 2 + 0.1 + Math.random() * 0.2;
-                const petal = createPetal(color);
-                
-                const radius = 0.25;
-                const heightOffset = 0.1;
-                petal.position.set(
-                    Math.cos(angle) * radius,
-                    heightOffset + Math.random() * 0.1,
-                    Math.sin(angle) * radius
-                );
-                
-                petal.rotation.y = angle;
-                petal.rotation.z = -0.65 + Math.random() * 0.4;
-                petal.rotation.x = 0.4 + Math.random() * 0.3;
-                petal.scale.set(0.8, 0.85, 1);
-                
-                petal.castShadow = true;
-                petal.receiveShadow = true;
-                rose.add(petal);
-            }
-
-            // CENTER BUD - richer golden/reddish
+            // Center
             const center = new THREE.Mesh(
-                new THREE.SphereGeometry(0.25, 32, 32),
-                new THREE.MeshStandardMaterial({
-                    color: 0xffaa44,
-                    roughness: 0.15,
-                    metalness: 0.4,
+                new THREE.SphereGeometry(0.22, 48, 48),
+                new THREE.MeshPhongMaterial({
+                    color: 0xffee88,
                     emissive: 0xff6600,
-                    emissiveIntensity: 0.7
+                    emissiveIntensity: 0.9,
+                    shininess: 30
                 })
             );
-            center.position.y = 0.55;
-            center.castShadow = true;
-            center.receiveShadow = true;
+            center.position.y = 0.72;
             rose.add(center);
 
             return rose;
         }
 
-        // BUILD BOUQUET
+        // Bouquet
         const bouquet = new THREE.Group();
 
-        // 8 REAL RED ROSES - rich crimson & deep reds
-        const roseConfigs = [
-            { x: 0, y: 0, z: 0, color: 0xdc143c, glow: 0xff3333 },
-            { x: -0.5, y: 0.2, z: -0.4, color: 0xb22222, glow: 0xff4444 },
-            { x: 0.5, y: 0.2, z: -0.4, color: 0xe0115f, glow: 0xff2255 },
-            { x: -0.6, y: 0.1, z: 0.35, color: 0xff1e1e, glow: 0xff5555 },
-            { x: 0.6, y: 0.1, z: 0.35, color: 0xa52a2a, glow: 0xff6666 },
-            { x: -0.3, y: 0.25, z: -0.15, color: 0xdc143c, glow: 0xff4444 },
-            { x: 0.3, y: 0.25, z: -0.15, color: 0xb22222, glow: 0xff5555 },
-            { x: 0, y: 0.35, z: 0.5, color: 0xe0115f, glow: 0xff3366 }
+        const roseColors = [
+            { color: 0xc8102e, glow: 0xff4444 },
+            { color: 0x9c132f, glow: 0xff5555 },
+            { color: 0xe31b4b, glow: 0xff3366 },
+            { color: 0xb71c2c, glow: 0xff6666 }
         ];
 
-        roseConfigs.forEach(config => {
-            const rose = createRealisticRose(config.color, config.glow);
-            rose.position.set(config.x, config.y, config.z);
-            rose.rotation.z = (Math.random() - 0.5) * 0.3;
-            bouquet.add(rose);
-        });
-
-        // STEMS - bundled together
-        const stemGroup = new THREE.Group();
-        
-        for (let i = 0; i < 8; i++) {
-            const angle = (i / 8) * Math.PI * 2;
-            const stemCurve = new THREE.LineCurve3(
-                new THREE.Vector3(Math.cos(angle) * 0.15, 0.3, Math.sin(angle) * 0.15),
-                new THREE.Vector3(Math.cos(angle) * 0.18, -1.8, Math.sin(angle) * 0.18)
+        for (let i = 0; i < 9; i++) {
+            const cfg = roseColors[i % roseColors.length];
+            const rose = createAttractiveRose(cfg.color, cfg.glow);
+            
+            const spread = 0.9;
+            rose.position.set(
+                (Math.random() - 0.5) * spread,
+                Math.random() * 0.45,
+                (Math.random() - 0.5) * spread
             );
+            
+            rose.rotation.set(
+                (Math.random() - 0.5) * 0.4,
+                Math.random() * Math.PI * 2,
+                (Math.random() - 0.5) * 0.5
+            );
+            
+            bouquet.add(rose);
+        }
+
+        // Stems + Leaves
+        const stemGroup = new THREE.Group();
+        for (let i = 0; i < 9; i++) {
+            const angle = (i / 9) * Math.PI * 2;
+            const curve = new THREE.QuadraticBezierCurve3(
+                new THREE.Vector3(Math.cos(angle) * 0.2, 0.4, Math.sin(angle) * 0.2),
+                new THREE.Vector3(Math.cos(angle) * 0.1, -0.6, Math.sin(angle) * 0.15),
+                new THREE.Vector3(Math.cos(angle) * 0.25, -2.1, Math.sin(angle) * 0.25)
+            );
+            
             const stem = new THREE.Mesh(
-                new THREE.TubeGeometry(stemCurve, 8, 0.08, 6),
-                new THREE.MeshStandardMaterial({ color: 0x2d5016, roughness: 0.8 })
+                new THREE.TubeGeometry(curve, 12, 0.055, 8, false),
+                new THREE.MeshPhongMaterial({ color: 0x1e3a1e, shininess: 2 })
             );
             stem.castShadow = true;
-            stem.receiveShadow = true;
             stemGroup.add(stem);
         }
         bouquet.add(stemGroup);
 
-        // WHITE WRAPPER CONE
+        // Paper wrapper + ribbon
         const wrapper = new THREE.Mesh(
-            new THREE.ConeGeometry(1, 2, 48),
-            new THREE.MeshStandardMaterial({ 
-                color: 0xf5f5f5, 
-                roughness: 0.5, 
-                metalness: 0.1,
-                flatShading: false
-            })
+            new THREE.ConeGeometry(1.35, 2.6, 64),
+            new THREE.MeshPhongMaterial({ color: 0xfff0f0, shininess: 5 })
         );
-        wrapper.position.y = -0.8;
-        wrapper.castShadow = true;
-        wrapper.receiveShadow = true;
+        wrapper.rotation.x = Math.PI;
+        wrapper.position.y = -1.1;
         bouquet.add(wrapper);
 
-        // RED RIBBON BOW
         const ribbon = new THREE.Mesh(
-            new THREE.TorusGeometry(1.0, 0.1, 16, 100),
-            new THREE.MeshStandardMaterial({
-                color: 0xdc143c,
-                roughness: 0.25,
-                metalness: 0.25,
-                emissive: 0xff1e1e,
-                emissiveIntensity: 0.45
+            new THREE.TorusGeometry(1.15, 0.12, 18, 120),
+            new THREE.MeshPhongMaterial({ 
+                color: 0xff1133, 
+                emissive: 0xcc0022,
+                shininess: 20 
             })
         );
-        ribbon.position.y = -0.3;
-        ribbon.rotation.x = Math.PI / 2.2;
-        ribbon.castShadow = true;
-        ribbon.receiveShadow = true;
+        ribbon.rotation.x = Math.PI / 2;
+        ribbon.position.y = -0.65;
         bouquet.add(ribbon);
 
-        bouquet.position.y = 0.95;
+        bouquet.position.y = 1.1;
         scene.add(bouquet);
 
-        // PARTICLES - falling red rose petals
-        const particles = [];
-        let particleGeom = new THREE.BufferGeometry();
-        const particleMat = new THREE.PointsMaterial({
-            size: 0.15,
-            sizeAttenuation: true,
-            transparent: true,
+        // Falling petals
+        const petalParticles = [];
+        const particleGeometry = new THREE.BufferGeometry();
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 0.18,
             color: 0xff5555,
-            opacity: 0.75,
-            depthWrite: false
+            transparent: true,
+            opacity: 0.85,
+            depthTest: false
         });
-        let particlePoints = new THREE.Points(particleGeom, particleMat);
-        scene.add(particlePoints);
+        const points = new THREE.Points(particleGeometry, particleMaterial);
+        scene.add(points);
 
-        class Particle {
+        class FallingPetal {
             constructor() {
-                this.pos = new THREE.Vector3(
-                    (Math.random() - 0.5) * 14,
-                    6 + Math.random() * 3,
-                    (Math.random() - 0.5) * 14
+                this.position = new THREE.Vector3(
+                    (Math.random() - 0.5) * 16,
+                    5 + Math.random() * 6,
+                    (Math.random() - 0.5) * 12
                 );
-                this.vel = new THREE.Vector3(
-                    (Math.random() - 0.5) * 0.6,
-                    -Math.random() * 0.3 - 0.1,
+                this.velocity = new THREE.Vector3(
+                    (Math.random() - 0.5) * 0.8,
+                    -0.3 - Math.random() * 0.4,
                     (Math.random() - 0.5) * 0.6
                 );
-                this.life = 1;
-                this.maxLife = Math.random() * 18 + 15;
-                this.spin = Math.random() * Math.PI * 2;
-                this.spinVel = (Math.random() - 0.5) * 0.15;
+                this.life = 1.0;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.2;
+                this.angle = Math.random() * Math.PI * 2;
             }
-
+            
             update(dt, wind) {
-                this.vel.y -= 0.003;
-                this.vel.x += wind.x * 0.02;
-                this.vel.z += wind.z * 0.02;
-                this.pos.add(this.vel);
-                this.spin += this.spinVel;
-                this.life -= dt / this.maxLife;
-                if (this.pos.y < -5) this.life = 0;
+                this.velocity.y -= 0.004;
+                this.velocity.x += wind * 0.015;
+                this.position.addScaledVector(this.velocity, dt * 18);
+                this.angle += this.rotationSpeed * dt * 12;
+                this.life -= dt * 0.18;
             }
         }
 
-        let emitCounter = 0;
-        function updateParticles(dt, wind) {
-            emitCounter += dt;
-            if (emitCounter > 0.15 && particles.length < 180) {
-                particles.push(new Particle());
-                emitCounter = 0;
-            }
-
-            for (let i = particles.length - 1; i >= 0; i--) {
-                particles[i].update(dt, wind);
-                if (particles[i].life <= 0) particles.splice(i, 1);
-            }
-
-            const positions = [];
-            particles.forEach(p => positions.push(p.pos.x, p.pos.y, p.pos.z));
-            particleGeom.dispose();
-            particleGeom = new THREE.BufferGeometry();
-            if (positions.length > 0) {
-                particleGeom.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
-            }
-            particlePoints.geometry = particleGeom;
-        }
-
-        // INTERACTION
-        let mouseX = 0, mouseY = 0;
-        let windX = 0, windY = 0;
-        let targetRotY = 0;
+        let time = 0;
+        let mouseX = 0;
 
         document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-            windX = mouseX * 0.7;
-            windY = mouseY * 0.7;
-            targetRotY = mouseX * 0.7;
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
         });
 
-        // MODAL
+        // Modal
         const modal = document.getElementById('modal');
         const msgBtn = document.getElementById('msgBtn');
         const closeBtn = document.getElementById('closeBtn');
-        let isModalOpen = false;
 
         msgBtn.addEventListener('click', () => {
-            isModalOpen = true;
             modal.classList.add('show');
-            gsap.from('.msg-box', { scale: 0.8, opacity: 0, duration: 0.5, ease: 'back.out' });
+            gsap.fromTo('.msg-box', 
+                { scale: 0.6, opacity: 0, y: 40 }, 
+                { scale: 1, opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.2)" }
+            );
         });
 
-        closeBtn.addEventListener('click', () => {
-            isModalOpen = false;
-            modal.classList.remove('show');
-        });
-
+        closeBtn.addEventListener('click', () => modal.classList.remove('show'));
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                isModalOpen = false;
-                modal.classList.remove('show');
-            }
+            if (e.target === modal) modal.classList.remove('show');
         });
 
-        // ANIMATION LOOP
+        // Animation
         const clock = new THREE.Clock();
-        let elapsed = 0;
 
         function animate() {
             requestAnimationFrame(animate);
             const dt = clock.getDelta();
-            elapsed += dt;
+            time += dt;
 
-            updateParticles(dt, { x: windX, y: windY });
+            // Gentle bouquet sway
+            bouquet.rotation.y = Math.sin(time * 0.4) * 0.08 + mouseX * 0.6;
+            bouquet.position.y = 1.1 + Math.sin(time * 0.8) * 0.1;
 
-            if (!isModalOpen) {
-                bouquet.rotation.y += (targetRotY - bouquet.rotation.y) * 0.03;
+            // Light movement
+            keyLight.position.x = 5 + Math.sin(time * 0.6) * 3;
+
+            // Update particles
+            if (Math.random() < 0.45 && petalParticles.length < 220) {
+                petalParticles.push(new FallingPetal());
             }
 
-            bouquet.position.y = 0.95 + Math.sin(elapsed * 0.7) * 0.14;
+            for (let i = petalParticles.length - 1; i >= 0; i--) {
+                const p = petalParticles[i];
+                p.update(dt, mouseX * 0.6);
+                if (p.life <= 0 || p.position.y < -3) {
+                    petalParticles.splice(i, 1);
+                }
+            }
 
-            key.position.x = 6 + Math.sin(elapsed * 0.4) * 2.2;
-            key.position.z = 9 + Math.cos(elapsed * 0.3) * 2.2;
+            const positions = new Float32Array(petalParticles.length * 3);
+            petalParticles.forEach((p, i) => {
+                positions[i*3] = p.position.x;
+                positions[i*3+1] = p.position.y;
+                positions[i*3+2] = p.position.z;
+            });
+            
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
             renderer.render(scene, camera);
         }
 
         animate();
 
+        // Resize handler
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
