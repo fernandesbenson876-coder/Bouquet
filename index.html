@@ -101,3 +101,70 @@
     </script>
 </body>
 </html>
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="night-sky"></div>
+
+    <div class="gift-card" id="card">
+        <div class="image-wrapper">
+            <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&q=80&w=800" class="bouquet-img">
+        </div>
+        
+        <div class="section" id="intro-section" style="display:flex;">
+            <h1>A Special Gift</h1>
+            <button class="small-btn" onclick="startExperience()">Tap to Open</button>
+        </div>
+
+        <div class="section" id="main-content">
+            <p id="dynamic-text">A small token for you...</p>
+        </div>
+
+        <div id="sky-note">Since we couldn't go stargazing yet, I brought the sky to you. ✨</div>
+
+        <div id="action-menu" style="display:none; margin-top:15px;">
+            <button class="small-btn" onclick="toggleSky()">✨ Sky</button>
+            <button class="small-btn" onclick="showNote()">📜 Note</button>
+        </div>
+    </div>
+
+    <script>
+        let skyActive = false;
+        function startExperience() {
+            document.getElementById('intro-section').style.display = 'none';
+            document.getElementById('main-content').style.display = 'flex';
+            document.getElementById('action-menu').style.display = 'block';
+            document.getElementById('dynamic-text').innerText = "Since we can't meet today, I wanted to share this with you.";
+        }
+
+        function toggleSky() {
+            const sky = document.getElementById('night-sky'), 
+                  card = document.getElementById('card'),
+                  note = document.getElementById('sky-note');
+            
+            if (!skyActive) {
+                // Trigger Fold
+                card.classList.add('folded');
+                note.style.display = 'block';
+                // Create Stars
+                for (let i = 0; i < 80; i++) {
+                    let s = document.createElement('div'); s.className = 'star';
+                    s.style.width = s.style.height = Math.random()*2 + 'px';
+                    s.style.left = Math.random()*100 + 'vw'; s.style.top = Math.random()*100 + 'vh';
+                    sky.appendChild(s);
+                }
+                skyActive = true;
+            } else {
+                // Unfold
+                card.classList.remove('folded');
+                sky.innerHTML = '';
+                note.style.display = 'none';
+                skyActive = false;
+            }
+        }
+    </script>
+</body>
+</html>
